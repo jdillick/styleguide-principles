@@ -7,5 +7,5 @@ to confluence and html equivalents in **confluence** and **html** directories.
 
 ```
 npm install
-gulp
+npm start
 ```
