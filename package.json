@@ -1,0 +1,24 @@
+{
+  "name": "css-principles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gulp": "gulp",
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "John Dillick",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-debug": "^2.1.2",
+    "gulp-html-prettify": "0.0.1",
+    "gulp-markdown": "^1.2.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-wrapper": "^1.0.0",
+    "markdown2confluence": "^1.1.7"
+  }
+}
