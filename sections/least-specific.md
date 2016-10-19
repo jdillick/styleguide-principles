@@ -4,48 +4,36 @@
 
 **Values:** Preserves reuse of styles, and reduces the cost of style maintenance.
 
-### CSS Specificity rules:
+## Think you understand CSS specificity?
 
-Before we can get into the nitty-gritty of least specificity, you must first understand how the browser handles specificity.
-
-Selector types have different precedence, and all browsers use these differences to decide which style “wins” if any two selectors are setting the same property.
-
-Below we have an example of the problem the browser is solving:
-
-**What is the background color of the below markup?**
-
-**HTML**
-``` html/xml
-<div class="person">
-	I'm a person too.
-</div>
-```
-
-**CSS**
+**Quick Quiz: What background color is applied for the below <a> tag on hover?**
 ``` css
-div.person {
+#headerSection div.class1 span.class2 a.class3 {
 	background-color: red;
 }
 
-.person {
+.headerSection div.class1 ul#myList span.class2 a.class3:hover {
 	background-color: blue;
 }
 
-div {
-	background-color: grey;
+#headerSection #myList a {
+  background-color: green;
 }
 ```
 
-The CSS specification was really smart in deciding how this system would work. By placing a completely different order of denomination upon different html markup characteristics that are more or less specific in the DOM, you can create a style system that naturally target the precise level of generic / specific that you desire.
-
-It is useful to understand the math that goes into this comparison.
-
-#### Element Selectors
-
-Elements (e.g. `<p>`, `<a>`, `<span>`, `<h1>`) by themselves are the generic building blocks
-of markup, and their CSS selectors are the least specific. Each of these has a specificity worth 1.
-
-**Count each element in the following selector and assign 1 to each.**
-``` css
-div span a { /* 1 + 1 + 1 = 3 */}
+``` html/xml
+<header id="headerSection">
+	<div class="class1">
+		<ul id="myList">
+			<li>
+				<span class="class2">
+					<a class="class3" href="#">I'm a link!</a>
+				</span>
+			</li>
+		</ul>
+	</div>
+</header>
 ```
+
+If you said, blue, you need to brush up on [CSS Specificity](css-specificity.md).
+If you said, green, let's continue on.
