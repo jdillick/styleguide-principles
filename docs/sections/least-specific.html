@@ -7,42 +7,34 @@
   <h1 id="principal-1-least-specificity">Principal 1: Least Specificity</h1>
   <p><strong>Principal 1:</strong> Make any CSS selector only as specific as it <strong>must be</strong> to avoid breaking other styles, <strong>no more</strong>.</p>
   <p><strong>Values:</strong> Preserves reuse of styles, and reduces the cost of style maintenance.</p>
-  <h3 id="css-specificity-rules-">CSS Specificity rules:</h3>
-  <p>Before we can get into the nitty-gritty of least specificity, you must first understand how the browser handles specificity.</p>
-  <p>Selector types have different precedence, and all browsers use these differences to decide which style “wins” if any two selectors are setting the same property.</p>
-  <p>Below we have an example of the problem the browser is solving:</p>
-  <p><strong>What is the background color of the below markup?</strong>
+  <h2 id="think-you-understand-css-specificity-">Think you understand CSS specificity?</h2>
+  <p><strong>Quick Quiz: What background color is applied for the below <a> tag on hover?</strong>
   </p>
-  <p><strong>HTML</strong>
-  </p>
-  <pre><code class="lang-html/xml">&lt;div class=&quot;person&quot;&gt;
-    I&#39;m a person too.
-&lt;/div&gt;
-</code></pre>
-  <p><strong>CSS</strong>
-  </p>
-  <pre><code class="lang-css">div.person {
+  <pre><code class="lang-css">#headerSection div.class1 span.class2 a.class3 {
     background-color: red;
 }
 
-.person {
+.headerSection div.class1 ul#myList span.class2 a.class3:hover {
     background-color: blue;
 }
 
-div {
-    background-color: grey;
+#headerSection #myList a {
+  background-color: green;
 }
 </code></pre>
-  <p>The CSS specification was really smart in deciding how this system would work. By placing a completely different order of denomination upon different html markup characteristics that are more or less specific in the DOM, you can create a style system
-    that naturally target the precise level of generic / specific that you desire.</p>
-  <p>It is useful to understand the math that goes into this comparison.</p>
-  <h4 id="element-selectors">Element Selectors</h4>
-  <p>Elements (e.g. <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;span&gt;</code>, <code>&lt;h1&gt;</code>) by themselves are the generic building blocks of markup, and their CSS selectors are the least specific. Each of these has a specificity worth
-    1.</p>
-  <p><strong>Count each element in the following selector and assign 1 to each.</strong>
-  </p>
-  <pre><code class="lang-css">div span a { /* 1 + 1 + 1 = 3 */}
+  <pre><code class="lang-html/xml">&lt;header id=&quot;headerSection&quot;&gt;
+    &lt;div class=&quot;class1&quot;&gt;
+        &lt;ul id=&quot;myList&quot;&gt;
+            &lt;li&gt;
+                &lt;span class=&quot;class2&quot;&gt;
+                    &lt;a class=&quot;class3&quot; href=&quot;#&quot;&gt;I&#39;m a link!&lt;/a&gt;
+                &lt;/span&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/header&gt;
 </code></pre>
+  <p>If you said, blue, you need to brush up on <a href="css-specificity.html">CSS Specificity</a>. If you said, green, let&#39;s continue on.</p>
 </body>
 
 </html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head></head>
+
+<body>
+  <h1 id="css-specificity-rules-">CSS Specificity Rules:</h1>
+  <p>Before we can get into the nitty-gritty of the least specificity principle, you must first understand how the browser handles specificity.</p>
+  <p>Selector types have different precedence, and all browsers use these differences to decide which style “wins” if any two selectors are setting the same property.</p>
+  <p>Below we have an example of the problem the browser is solving:</p>
+  <p><strong>What is the background color of the below markup?</strong>
+  </p>
+  <p><strong>HTML</strong>
+  </p>
+  <pre><code class="lang-html/xml">&lt;div class=&quot;person&quot;&gt;
+    I&#39;m a person too.
+&lt;/div&gt;
+</code></pre>
+  <p><strong>CSS</strong>
+  </p>
+  <pre><code class="lang-css">div.person {
+    background-color: red;
+}
+
+.person {
+    background-color: blue;
+}
+
+div {
+    background-color: grey;
+}
+</code></pre>
+  <p>The CSS specification was really smart in deciding how this system would work. By placing a completely different order of denomination upon different html markup characteristics that are more or less specific in the DOM, you can create a style system
+    that naturally target the precise level of generic / specific that you desire.</p>
+  <p>It is useful to understand the math that goes into this comparison.</p>
+  <h2 id="element-selectors">Element Selectors</h2>
+  <p>Elements (e.g. <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;span&gt;</code>, <code>&lt;h1&gt;</code>) and pseudo-elements (e.g. <code>:before</code>, <code>:after</code>) by themselves are the generic building blocks of markup, and their CSS
+    selectors are the least specific. Each of these can be thought to have a specificity worth 1 each, in the least significant way.</p>
+  <p><strong>Count each element in the following selectors and assign 1 to each.</strong>
+  </p>
+  <pre><code class="lang-css">/* 1 + 1 + 1 = 3 */
+div span a {
+    background-color: red;
+}
+
+/* 1 + 1 = 2 */
+span a {
+    background-color: blue;
+}
+</code></pre>
+  <p>In the example above, <code>div span a</code> selector wins, because it is more specific.</p>
+  <h2 id="class-attribute-selectors">Class/Attribute Selectors</h2>
+  <p>Classes and attributes selectors are a way of creating some variation in your elements, and therefore are more specific in the CSS spec. Each of these can be thought to have a specificity worth 1 each, one more level of significance above elements. <em>:not() is not counted</em>
+  </p>
+  <p><strong>Count each class in the following selectors and assign 1 to each.</strong>
+  </p>
+  <pre><code class="lang-css">/* 1 + 1 + 1 = 3 */
+.class1 .class2 .class3 {
+    background-color: red;
+}
+
+/* 1 + 1 = 2 */
+.class2 .class3 {
+    background-color: blue;
+}
+
+/* 1 */
+:not(.class2) {
+  background: red;
+}
+</code></pre>
+  <p>In the example above, <code>.class1 .class2 .class3</code> selector wins, because it is more specific.</p>
+  <p>When class/attribute selectors are mixed, you count them separately, and concatenate the class/attribute count in front of the element selector. The biggest combined number wins.</p>
+  <p><strong>Count each class and element separately in the following selectors.</strong>
+  </p>
+  <pre><code class="lang-css">/*
+    classes 3
+    elements: 3
+    total specificity: 3,3  
+*/
+div.class1 span.class2 a.class3 {
+    background-color: red;
+}
+
+/*
+    classes 2
+    elements: 6
+    total specificity: 2,6  
+*/
+div span.class2 a.class3 div ul li {
+    background-color: blue;
+}
+</code></pre>
+  <p>Notice that the <code>div.class1 span.class2 a.class3</code> selector wins, even though there are lots of elements, the classes are always more specific.</p>
+  <h2 id="id-selectors">Id Selectors</h2>
+  <p>Id selectors in HTML can only be used once per page, and as <strong>identifiers</strong> they are more specific in the CSS spec than classes/attributes, and elements both. Each of these can be thought to have a specificity worth 1 each, one more level
+    of significance above classes.</p>
+  <p>When used with class/attribute and element selectors, you concatenate the id count in front of the class/attribute count, which is in turn concatenated in front of elements.</p>
+  <p><strong>Count each id, class, and element separately in the following selectors.</strong>
+  </p>
+  <pre><code class="lang-css">/*
+  id: 1
+  classes 3
+  elements: 3
+  total specificity: 1,3,3  
+*/
+#headerSection div.class1 span.class2 a.class3 {
+    background-color: red;
+}
+
+/*
+  id: 1
+  classes 5
+  elements: 3
+  total specificity: 1,5,3  
+*/
+.headerSection div.class1 ul#myList span.class2 a:hover.class3 {
+    background-color: blue;
+}
+
+/*
+  id: 2
+  classes 0
+  elements: 0
+  total specificity: 2,0,0  
+*/
+#headerSection #myList {
+  background-color: green;
+}
+</code></pre>
+  <p>Note that the <code>#headerSection #myList</code> select wins, even though it is much shorter, because ids are very specific.</p>
+  <h2 id="inline-style-attribute">Inline style attribute</h2>
+  <p>Styles that appear inline in html have a higher specificity even than Id selectors, and are your first trump card. No matter how many Ids you select for in you CSS, inline styles will override them.</p>
+  <p><strong>This very specific style will not apply</strong>
+  </p>
+  <pre><code class="lang-css">/*
+  inline: 0
+  id: 3
+  classes: 0
+  elements: 0
+  total specificity: 0,3,0,0
+ */
+#main #heroRegion #myDiv {
+  background-color: red;
+}
+</code></pre>
+  <pre><code class="lang-html/xml">&lt;!--
+  inline: 1
+  id: 0
+  classes: 0
+  elements: 0
+  total specificity: 1,0,0,0
+--&gt;
+&lt;main id=&quot;main&quot;&gt;
+  &lt;section id=&quot;heroRegion&quot;&gt;
+    &lt;div id=&quot;myDiv&quot; style=&quot;background-color: green;&quot;&gt;I&#39;m green, yo.&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+</code></pre>
+  <p>It will indeed be green, because an inline style is more specific than your CSS selectors in general.</p>
+  <h2 id="-important">!important</h2>
+  <p>Adding a !important to a property is your last resort to override an inline-style.</p>
+  <p><strong>This very specific style will apply, but only because of !important</strong>
+  </p>
+  <pre><code class="lang-css">/*
+  id: 3
+  classes: 0
+  elements: 0
+  total specificity: 300
+ */
+#main #heroRegion #myDiv {
+  background-color: red !important; /* trump specificity for this property */
+}
+</code></pre>
+  <pre><code class="lang-html/xml">&lt;!--
+  inline: 1
+  id: 0
+  classes: 0
+  elements: 0
+  total specificity: 1000
+--&gt;
+&lt;main id=&quot;main&quot;&gt;
+  &lt;section id=&quot;heroRegion&quot;&gt;
+    &lt;div id=&quot;myDiv&quot; style=&quot;background-color: green;&quot;&gt;I&#39;m red, yo. :-(&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+</code></pre>
+  <p>Even though the inline style wins the specificity, for the background-color property, the !important wins.</p>
+  <p><strong>Lots of !important properties in your CSS is a good sign that your overusing
+inline styles, and/or your CSS is overly specific in general.</strong>
+  </p>
+  <h2 id="the-css-spec">The CSS Spec</h2>
+  <p>See <a href="https://www.w3.org/TR/selectors/#specificity">the specification</a> for the complete rules regarding specification.</p>
+</body>
+
+</html>

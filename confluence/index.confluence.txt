@@ -9,4 +9,5 @@ leading toward the goals of:
 This is accomplished by following these two simple principles:
 
 * [sections/least-specific.md]
+* [sections/context-independent.md]
 
