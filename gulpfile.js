@@ -14,6 +14,9 @@ var config = {
   wrapper: {
     header: '<!DOCTYPE html><html lang="en"><head></head><body>',
     footer: '</body></html>'
+  },
+  marked: {
+    gfm: true
   }
 };
 
@@ -36,7 +39,7 @@ gulp.task('confluence', function(){
 gulp.task('html', function(){
   return gulp.src(config.mdSrc)
     .pipe(debug())
-    .pipe(md())
+    .pipe(md(config.marked))
     .pipe(replace('.md', '.html'))
     .pipe(wrapper(config.wrapper))
     .pipe(prettify({indent_char: ' ', indent_size: 2}))
