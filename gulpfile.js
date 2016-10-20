@@ -1,10 +1,12 @@
 var gulp = require('gulp');
 var debug = require('gulp-debug');
 var md = require('gulp-markdown');
-var md2confluence = require('./lib/gulp-markdown2confluence');
+var md2confluence = require('gulp-markdown2confluence');
 var replace = require('gulp-replace');
 var wrapper = require('gulp-wrapper');
 var prettify = require('gulp-html-prettify');
+var cleanCSS = require('gulp-clean-css');
+var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 
 var config = {
@@ -12,7 +14,7 @@ var config = {
   confluenceDest: 'confluence',
   mdSrc: ['**/*.md', '!node_modules/**', '!bower_components/**'],
   wrapper: {
-    header: '<!DOCTYPE html><html lang="en"><head></head><body>',
+    header: '<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" type="text/css" href="/css/splendor.css"></head><body>',
     footer: '</body></html>'
   },
   marked: {
@@ -20,7 +22,7 @@ var config = {
   }
 };
 
-gulp.task('build', ['clean', 'confluence', 'html']);
+gulp.task('build', ['clean', 'confluence', 'html', 'style']);
 
 gulp.task('clean', function(){
   return del([
@@ -46,8 +48,17 @@ gulp.task('html', function(){
     .pipe(gulp.dest(config.htmlDest));
 });
 
+gulp.task('style', function(){
+  return gulp.src('css/**/*.css')
+    .pipe(sourcemaps.init())
+    .pipe(cleanCSS())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(config.htmlDest + '/css'));
+});
+
 gulp.task('watch', function(){
   gulp.watch(config.mdSrc, ['build']);
+  gulp.watch('css/**/*.css', ['build']);
 });
 
 gulp.task('default', ['build', 'watch']);

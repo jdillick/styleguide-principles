@@ -14,10 +14,13 @@
   "dependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
     "gulp-debug": "^2.1.2",
     "gulp-html-prettify": "0.0.1",
     "gulp-markdown": "^1.2.0",
+    "gulp-markdown2confluence": "^1.0.0",
     "gulp-replace": "^0.5.4",
+    "gulp-sourcemaps": "^2.1.1",
     "gulp-wrapper": "^1.0.0",
     "markdown2confluence": "^1.1.7"
   }
