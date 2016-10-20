@@ -60,7 +60,7 @@ gulp.task('html', function(){
         if (titleName === 'Index') {
           titleName = '';
         } else {
-          titleName = '- ' + titleName;
+          titleName = ': ' + titleName;
         }
 
         var header = config.wrapper.header
